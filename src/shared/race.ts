@@ -21,10 +21,36 @@ export interface Course {
 }
 
 export type WindMode = 'steady' | 'shifting'
-export interface Wind { bearing: number; knots: number }
-export interface Boat { position: Point; heading: number; knots: number; sheet: number; rudder: number }
+export interface Wind { bearing: number; knots: number; gust?: number }
+export type WinchMode = 'sheet' | 'reef'
+export type WinchDrive = 'haul' | 'hold' | 'free'
+export type WinchStatus = 'standby' | 'slack' | 'hauling' | 'holding' | 'jammed' | 'slipping' | 'locked'
+export interface Boat {
+  position: Point
+  heading: number
+  knots: number
+  sheet: number
+  rudder: number
+  winchMode: WinchMode
+  winchDrive: WinchDrive
+  winchEngaged: boolean
+  winchStatus: WinchStatus
+  winchJammed: boolean
+  /** Remaining idle travel in the reef line, from 1 (all slack) to 0. */
+  reefSlack: number
+  /** Current total reef reduction, including work not yet locked. */
+  reefDraw: number
+  /** Reef reduction secured by a lock/pawl; release can never reduce this. */
+  reefLocked: number
+  /** Amount returned during the latest release event. */
+  reefReturn: number
+  winchTension: number
+  sailLoad: number
+  sheetSlip: number
+  slipShock: number
+}
 export type RaceStatus = 'ready' | 'running' | 'paused' | 'finished' | 'abandoned'
-export type EventKind = 'start' | 'mark' | 'collision' | 'deviation' | 'finish' | 'abandon'
+export type EventKind = 'start' | 'mark' | 'collision' | 'deviation' | 'finish' | 'abandon' | 'reef'
 export interface RaceEvent {
   id: string
   time: number

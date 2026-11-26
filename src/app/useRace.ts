@@ -5,6 +5,7 @@ import { useSail } from '../features/sail'
 import { useJury } from '../features/jury'
 import { useLogbook } from '../features/logbook'
 import type { Point, RaceEvent, RaceStatus, Sample } from '../shared/race'
+import { axis } from '../shared/math'
 
 const stepSize = .025
 const maxDuration = 600
@@ -42,6 +43,36 @@ export function useRace() {
     jury.add('start', '出发', 0, sail.boat.value.position)
     logbook.record(live.value, true)
   }
+  function recordRigEvents(from: Sample['boat'], to: Sample['boat'], time: number) {
+    const percent = (value: number) => `${Math.round(value * 100)}%`
+    if (to.reefLocked > from.reefLocked + .001) {
+      jury.add('reef', `锁定缩帆面积 ${percent(to.reefLocked)}`, time, to.position)
+    }
+    if (!from.winchJammed && to.winchJammed) {
+      jury.add('reef', '绞盘受力卡住', time, to.position)
+    }
+    if (from.winchStatus === 'slipping' && to.winchStatus !== 'slipping' && to.reefReturn > .005) {
+      jury.add('reef', `未锁定帆面滑回 ${percent(to.reefReturn)}`, time, to.position)
+    }
+  }
+  function startReefCheck() {
+    const mode = wind.mode.value
+    reset()
+    wind.set(mode)
+    const gate = course.gates[course.gates.length - 1]
+    const backwards = axis(gate.bearing)
+    const position = {
+      x: gate.center.x - backwards.x * 205,
+      y: gate.center.y - backwards.y * 205,
+    }
+    status.value = 'running'
+    elapsed.value = 184.5
+    pending = 0
+    jury.nextGate.value = course.gates.length - 1
+    sail.placeAt(position, gate.bearing, 5.8)
+    jury.add('start', '缩帆门线验证航段', elapsed.value, position)
+    logbook.record(live.value, true)
+  }
   function togglePause() {
     if (status.value === 'running') { status.value = 'paused'; sail.steer(0) }
     else if (status.value === 'paused') status.value = 'running'
@@ -61,8 +92,10 @@ export function useRace() {
     const from = sail.boat.value
     const previousEvent = jury.events.value.at(-1)
     const next = sail.step(live.value.wind, stepSize)
+    recordRigEvents(from, next, elapsed.value + stepSize)
     const verdict = jury.inspect(from.position, next.position, elapsed.value, stepSize)
-    sail.boat.value = verdict.blocked ? { ...next, position: from.position, knots: 0 } : next
+    const resolved = verdict.blocked ? { ...next, position: from.position, knots: 0 } : next
+    sail.boat.value = resolved
     elapsed.value += stepSize
     if (verdict.finish) {
       elapsed.value = verdict.finish.time
@@ -118,5 +151,5 @@ export function useRace() {
     window.removeEventListener('keyup', keyup)
     window.removeEventListener('blur', suspend)
   })
-  return { course, wind, sail, jury, logbook, status, focus, frame, trail, active, start, togglePause, end, locate }
+  return { course, wind, sail, jury, logbook, status, elapsed, focus, frame, trail, active, start, startReefCheck, togglePause, end, locate }
 }

@@ -105,3 +105,54 @@ input[type=range] { width: 100%; margin: 5px 0 10px; accent-color: #39696a; }
   .chart-tag { left: 6px; top: 6px; }
   .chart-state { right: 6px; bottom: 6px; }
 }
+
+.gust-pill { margin-left: auto; padding: 4px 6px; background: #8d3f2c; color: #fff1cf; font: 10px var(--mono); white-space: nowrap; }
+.gust-button { width: 100%; margin-top: 8px; min-height: 32px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: 1px solid #8d3f2c; background: #f3d9c8; color: #71311f; font-size: 12px; font-weight: 700; }
+.gust-button:not(:disabled):hover { background: #efc6ad; }
+.winch-hint { margin: -3px 0 9px; color: #5c6255; font-size: 11px; line-height: 1.35; }
+.reef-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin: 10px 0 8px; }
+.reef-stat { padding: 6px 7px; background: #e8e1c7; border-left: 3px solid #8b9a83; min-width: 0; }
+.reef-stat.locked { border-left-color: #31585a; background: #dce5d8; }
+.reef-stat.return { border-left-color: #a75b25; }
+.reef-stat span, .winch-readings span { display: flex; align-items: center; gap: 3px; color: #626754; font-size: 10px; line-height: 1.25; }
+.reef-stat strong { display: block; margin-top: 3px; font: 700 21px/1 var(--display); }
+.reef-stat.return strong { color: #893b27; }
+.area-line { margin: -1px 0 9px; color: #5c6255; font-size: 10.5px; line-height: 1.4; }
+.area-line output { font: 11px var(--mono); color: #31585a; }
+.meter { height: 7px; overflow: hidden; background: #d6cfb5; border: 1px solid #c2baa1; }
+.meter i { display: block; height: 100%; background: #4c7065; transition: width .12s linear; }
+.winch-readings { display: grid; grid-template-columns: 1.25fr .8fr .8fr; gap: 6px; margin: 10px 0 5px; }
+.winch-readings div { min-width: 0; }
+.winch-readings b, .winch-readings output { display: block; margin-top: 3px; font: 12px/1.2 var(--mono); }
+.winch-readings b[data-state=jammed], .warning { color: #92331f; }
+.meter.tension i { background: #b46b2f; }
+.meter.tension i.jam { background: #a32f20; }
+.winch-mode { margin-top: 10px; }
+.winch-mode button { font-size: 10.5px; }
+.winch-actions { margin-top: 6px; flex-wrap: wrap; }
+.winch-actions button { min-height: 36px; font-size: 12px; }
+.winch-actions .haul { flex: 1 1 100%; font-weight: 700; background: #e1d8b8; }
+.winch-actions .release { color: #7d321f; }
+.warning { display: flex; align-items: flex-start; gap: 5px; margin: 8px 0 0; font-size: 11.5px; line-height: 1.35; font-weight: 700; }
+.range-box { margin-top: 10px; padding: 8px; background: #ede6cc; border: 1px solid #cfc6aa; }
+.range-heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 11.5px; font-weight: 700; }
+.range-heading output { font: 13px var(--mono); color: #31585a; white-space: nowrap; }
+.range-visual { position: relative; height: 12px; margin: 9px 3px 5px; background: repeating-linear-gradient(90deg, #c9c0a4 0 2px, #ddd5bb 2px 12px); border: 1px solid #bdb498; }
+.safe-band { position: absolute; top: -1px; bottom: -1px; left: var(--min); width: calc(var(--max) - var(--min)); background: #83a77b; opacity: .72; border-inline: 1px solid #496c48; }
+.sheet-pin { position: absolute; top: -4px; bottom: -4px; width: 3px; margin-left: -1.5px; background: #893b27; box-shadow: 0 0 0 1px #f6efd7; }
+.range-box p { margin: 5px 0 0; font-size: 11px; line-height: 1.35; }
+.range-ok { color: #3f6849; }
+.forecast { margin-top: 10px; padding: 9px; border: 1px solid #b9b095; background: #f8f1d9; }
+.forecast[data-state=miss] { border-color: #a34a2f; background: #f4dccf; }
+.forecast.passed { background: #dfe8d8; }
+.forecast-meta { margin: 6px 0; color: #535b50; font-size: 11.5px; line-height: 1.45; }
+.forecast-meta output { font-family: var(--mono); }
+.forecast strong { display: block; font-size: 13px; line-height: 1.35; color: #31585a; }
+.forecast[data-state=miss] strong { color: #8f2f1c; }
+.scenario-help { margin: 9px 0 5px; color: #626754; font-size: 10.5px; line-height: 1.4; }
+.scenario-button { width: 100%; min-height: 34px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 5px 7px; border: 1px dashed #6d7566; background: transparent; color: #465044; font-size: 11px; line-height: 1.25; }
+.scenario-button:not(:disabled):hover { background: #e4dcc1; border-style: solid; }
+@media (max-width: 800px) {
+  .reef { grid-column: auto; }
+}
+

@@ -7,7 +7,11 @@
     "dev": "vite",
     "typecheck": "vue-tsc --noEmit",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "verify:reef": "node scripts/run-verify.mjs scripts/verify-reef.ts",
+    "verify:score": "node scripts/run-verify.mjs scripts/verify-score.ts",
+    "verify:jam": "node scripts/run-verify.mjs scripts/verify-jam.ts",
+    "verify": "npm run verify:reef && npm run verify:jam && npm run verify:score"
   },
   "dependencies": {
     "@fontsource/barlow-condensed": "^5.2.8",
